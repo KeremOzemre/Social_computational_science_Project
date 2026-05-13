@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The US Politician Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">The US Politician Network</a>
+    <ul class="nav-links">
+      <li><a href="#idea">Idea</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#network">Network</a></li>
+      <li><a href="#text">Text</a></li>
+      <li><a href="#communities">Communities</a></li>
+      <li><a href="#findings">Findings</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">A Computational Social Science Project &middot; DTU</p>
+    <h1>The US Politician Network</h1>
+    <p class="lede">
+      We extracted 3,393 American politicians from Wikipedia, mapped the links between them,
+      and read every word of every article. This is what we found about who is connected, and what they say.
+    </p>
+    <div class="hero-meta">
+      <span><strong>3,393</strong> politicians</span>
+      <span><strong>~14,000</strong> connections</span>
+      <span><strong>40+ million</strong> characters of biography</span>
+    </div>
+    <a href="#idea" class="scroll-cue">Begin &darr;</a>
+  </div>
+</header>
+
+<main>
+
+<section id="idea" class="section">
+  <div class="container">
+    <p class="kicker">01 &mdash; The Idea</p>
+    <h2>Who is connected, and what do they say?</h2>
+    <div class="two-col">
+      <div class="prose">
+        <p>
+          Wikipedia is more than an encyclopaedia &mdash; it is a graph. Every politician's article links
+          to colleagues, rivals, mentors, and successors. Taken together, these links form a network
+          that quietly encodes a community's structure.
+        </p>
+        <p>
+          We treat each US politician as a node, and each cross-link between two of their Wikipedia pages
+          as an edge. Then we read the articles themselves. The result is a dataset that lets us ask
+          two parallel questions:
+        </p>
+        <ul class="big-list">
+          <li><span class="big-list-num">A</span><span><strong>Who is connected?</strong> &mdash; what does the link structure look like, and does it sort itself by party, region, or era?</span></li>
+          <li><span class="big-list-num">B</span><span><strong>What do they say?</strong> &mdash; how does language in the articles differ across communities and parties?</span></li>
+        </ul>
+        <p>
+          The interesting bit is whether those two answers agree. If communities found purely from
+          link structure also show up in the language, then Wikipedia encodes the same political groupings
+          twice &mdash; once in its graph, once in its words.
+        </p>
+      </div>
+      <aside class="callout">
+        <p class="callout-label">Research questions</p>
+        <ol>
+          <li>Do politicians cluster into communities in the network?</li>
+          <li>Do those communities correspond to party or ideology?</li>
+          <li>Are central nodes more influential?</li>
+          <li>Does language similarity align with network connections?</li>
+          <li>Is Wikipedia actually neutral &mdash; do parties get described differently?</li>
+        </ol>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="data" class="section section-alt">
+  <div class="container">
+    <p class="kicker">02 &mdash; The Data</p>
+    <h2>From Wikidata to a clean corpus</h2>
+    <p class="prose-lead">
+      We assembled the dataset in two passes. First, we used the Wikidata SPARQL endpoint to find
+      the most cross-wiki-covered US politicians as seeds. Then we walked the Wikipedia link graph
+      out from those seeds to capture their connections.
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-value">3,393</div>
+        <div class="stat-label">Politicians (nodes)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">~14,000</div>
+        <div class="stat-label">Wikipedia links between them (edges)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">941 / 2,452</div>
+        <div class="stat-label">Seeds / link-walked neighbours</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">44 MB</div>
+        <div class="stat-label">Full cleaned article text</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>Pipeline</h3>
+        <ol class="pipeline">
+          <li><strong>SPARQL seed query</strong> &mdash; rank politicians by number of Wikipedia language editions covering them; take the top 800.</li>
+          <li><strong>Link walk</strong> &mdash; for each seed's Wikipedia page, follow internal links and keep the ones that point to other US politicians.</li>
+          <li><strong>Filter</strong> &mdash; humans, US-office holders, born before 1990, died after 1980 (so we focus on the modern era).</li>
+          <li><strong>Article fetch</strong> &mdash; for every politician, pull the full plain-text Wikipedia article via the <code>extracts</code> API, strip the footer sections (References, See also, External links, Bibliography &hellip;).</li>
+          <li><strong>Tokenisation</strong> &mdash; sentence-split, lowercase, remove stopwords, lemmatise with WordNet, detect significant bigrams via &chi;<sup>2</sup>.</li>
+        </ol>
+      </div>
+      <aside class="schema-card">
+        <p class="callout-label">Columns in <code>politicians_full_text.csv</code></p>
+        <table class="schema">
+          <tbody>
+            <tr><td>wikidata</td><td>Wikidata Q-ID</td></tr>
+            <tr><td>name</td><td>Display name</td></tr>
+            <tr><td>position</td><td>Highest US office held</td></tr>
+            <tr><td>start / end</td><td>Career dates</td></tr>
+            <tr><td>party / party_simple</td><td>Affiliation</td></tr>
+            <tr><td>gender</td><td>male / female</td></tr>
+            <tr><td>nationality, state, education</td><td>Biographical</td></tr>
+            <tr><td>degree</td><td>Number of links in graph</td></tr>
+            <tr><td>body_text</td><td>Full cleaned Wikipedia article</td></tr>
+          </tbody>
+        </table>
+      </aside>
+    </div>
+
+    <h3>Composition</h3>
+    <div class="bar-row">
+      <div class="bar-label">Democrat</div>
+      <div class="bar-track"><div class="bar bar-dem" style="width: 52%"></div></div>
+      <div class="bar-value">1,767 &middot; 52%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Republican</div>
+      <div class="bar-track"><div class="bar bar-rep" style="width: 45%"></div></div>
+      <div class="bar-value">1,519 &middot; 45%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Other / Independent</div>
+      <div class="bar-track"><div class="bar bar-other" style="width: 1.5%"></div></div>
+      <div class="bar-value">53 &middot; 1.6%</div>
+    </div>
+    <p class="caption">Party breakdown of the 3,393 politicians in the dataset (where party is known &mdash; 53 are missing).</p>
+  </div>
+</section>
+
+<section id="network" class="section">
+  <div class="container">
+    <p class="kicker">03 &mdash; The Network</p>
+    <h2>Structure of the graph</h2>
+    <p class="prose-lead">
+      Each node is a politician. Each edge connects two whose Wikipedia pages link to each other.
+      What does the resulting graph look like &mdash; is it dense, scale-free, fragmented?
+    </p>
+
+    <div class="placeholder">
+      <p class="placeholder-tag">Coming soon</p>
+      <p>
+        Network visualisation (force-directed layout, coloured by community)
+        &middot; degree distribution (log-binned, with random-graph baseline)
+        &middot; assortativity heatmap (party, gender, state)
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>What we already know</h3>
+        <p>
+          The graph has <strong>3,393 nodes</strong> and roughly <strong>14,000 edges</strong>. Mean degree is 10,
+          with the highest-degree politicians topping out around 89 connections. There is one giant
+          connected component containing nearly every politician &mdash; isolates are rare.
+        </p>
+        <p>
+          Comparison to an Erd&#337;s&ndash;R&eacute;nyi random graph with the same n and p will tell us how
+          structured the network really is. Preliminary degree distributions look much heavier-tailed
+          than random &mdash; consistent with a few prominent figures acting as hubs.
+        </p>
+      </div>
+      <aside class="callout">
+        <p class="callout-label">Analyses planned</p>
+        <ul>
+          <li>Degree distribution (real vs. random)</li>
+          <li>Average shortest path / small-world properties</li>
+          <li>Assortativity by party, gender, era, state</li>
+          <li>Centrality &mdash; betweenness, eigenvector</li>
+          <li>Louvain community detection</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="text" class="section section-alt">
+  <div class="container">
+    <p class="kicker">04 &mdash; The Text</p>
+    <h2>What 40 million characters of biography reveal</h2>
+    <p class="prose-lead">
+      For every politician we extracted their full Wikipedia article &mdash; intro, career, positions, the lot &mdash;
+      and stripped out boilerplate footer sections (References, See also, External links, Bibliography &hellip;).
+      The result is a clean text corpus of about 40 million characters.
+    </p>
+
+    <div class="placeholder">
+      <p class="placeholder-tag">Coming soon</p>
+      <p>
+        Sentiment by party and gender
+        &middot; top distinctive terms per Louvain community (TF&ndash;IDF)
+        &middot; significant bigrams (&chi;<sup>2</sup> test, p &lt; 0.001, count &gt; 50)
+        &middot; word clouds per group
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>How we cleaned it</h3>
+        <p>
+          We used the MediaWiki <code>extracts</code> API with <code>explaintext=1</code> to get clean
+          plaintext &mdash; no HTML, no infoboxes, no tables, no <code>[1]</code> citation markers, no images.
+          Section markers <code>== Section ==</code> were preserved so we could split into intro and body, and
+          strip out boilerplate footer sections (References, Notes, Footnotes, Citations, See also, External links,
+          Bibliography, Sources, Further reading, Works, Publications) along with their subsections.
+        </p>
+        <p>
+          Tokenisation followed: lowercasing, stopword removal, NLTK Porter stemming, then WordNet lemmatisation,
+          and a multi-word-expression detector for collocations like "<em>supreme court</em>" or
+          "<em>vice president</em>".
+        </p>
+      </div>
+      <aside class="callout">
+        <p class="callout-label">Two analyses, one question</p>
+        <p>
+          <strong>Sentiment.</strong> Is Wikipedia really neutral? We score each article and look for
+          differences across party and gender.
+        </p>
+        <p>
+          <strong>TF&ndash;IDF.</strong> Take communities found purely from the link structure (no text used).
+          Then ask: do those same communities also differ in language? If yes, Wikipedia's graph and
+          its text encode the same groupings independently.
+        </p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="communities" class="section">
+  <div class="container">
+    <p class="kicker">05 &mdash; Communities</p>
+    <h2>Do the parties hide in plain sight?</h2>
+    <p class="prose-lead">
+      Run a community detection algorithm that knows nothing about parties or ideology &mdash; just the link
+      structure. Then colour the resulting communities by what we know. If the algorithm
+      independently rediscovers Democrat / Republican &hellip; that says something.
+    </p>
+
+    <div class="placeholder">
+      <p class="placeholder-tag">Coming soon</p>
+      <p>
+        Louvain partition visualised on the network &middot; community-by-party crosstab &middot; modularity score &middot;
+        TF&ndash;IDF top-terms per community to give each cluster a name
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="findings" class="section section-alt">
+  <div class="container">
+    <p class="kicker">06 &mdash; Findings</p>
+    <h2>What the network and the text together tell us</h2>
+    <div class="placeholder placeholder-big">
+      <p class="placeholder-tag">Coming soon</p>
+      <p>
+        The headline insights from the project, written for a non-technical reader. Three or four
+        clear claims with the visuals that support them.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="downloads" class="section">
+  <div class="container">
+    <p class="kicker">07 &mdash; Downloads</p>
+    <h2>Play with the data</h2>
+    <p class="prose-lead">
+      Everything we built is downloadable. The small files live on GitHub; the larger ones are hosted
+      externally because they exceed GitHub's per-file size limit.
+    </p>
+
+    <div class="download-grid">
+      <a class="download-card" href="data/politicians_network_nodes2.csv" download>
+        <div class="download-name">politicians_network_nodes2.csv</div>
+        <div class="download-meta">1.1 MB &middot; 3,393 rows &middot; metadata + connections</div>
+        <div class="download-desc">The network itself: every politician, their attributes, and the list of other politicians they link to.</div>
+        <div class="download-cta">Download CSV &rarr;</div>
+      </a>
+
+      <a class="download-card" href="data/network.pkl" download>
+        <div class="download-name">network.pkl</div>
+        <div class="download-meta">785 KB &middot; NetworkX graph</div>
+        <div class="download-desc">The pre-built undirected graph object &mdash; load directly into Python with <code>pickle.load()</code>.</div>
+        <div class="download-cta">Download PKL &rarr;</div>
+      </a>
+
+      <a class="download-card" href="https://github.com/KeremOzemre/Social_computational_science_Project/releases/download/data-v1/politicians_full_text.csv" rel="external">
+        <div class="download-name">politicians_full_text.csv</div>
+        <div class="download-meta">44 MB &middot; GitHub Release</div>
+        <div class="download-desc">The full cleaned Wikipedia article text for every politician, plus all metadata.</div>
+        <div class="download-cta">Download CSV &rarr;</div>
+      </a>
+
+      <a class="download-card" href="https://github.com/KeremOzemre/Social_computational_science_Project/releases/download/data-v1/tokenized_wikipage.csv" rel="external">
+        <div class="download-name">tokenized_wikipage.csv</div>
+        <div class="download-meta">124 MB &middot; GitHub Release</div>
+        <div class="download-desc">Tokenised and lemmatised text, ready for TF&ndash;IDF / sentiment / topic modelling.</div>
+        <div class="download-cta">Download CSV &rarr;</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="notebook" class="section section-alt">
+  <div class="container narrow">
+    <p class="kicker">08 &mdash; Behind the scenes</p>
+    <h2>The explainer notebook</h2>
+    <p class="prose-lead">
+      The website is the story; the notebook is the workings. It walks through every decision &mdash; data cleaning,
+      tokenisation choices, network metrics, model selection &mdash; with the code right next to the prose.
+    </p>
+    <p class="cta-row">
+      <a class="btn btn-primary" href="REPLACE_WITH_NBVIEWER_LINK" rel="external">Open notebook on nbviewer &rarr;</a>
+      <a class="btn btn-ghost" href="https://github.com/KeremOzemre/Social_computational_science_Project" rel="external">View source on GitHub &rarr;</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Computational Social Science &middot; Technical University of Denmark &middot; 2026</p>
+    <p class="muted">Built by the project group &middot; Data from Wikidata &amp; Wikipedia &middot; Code on GitHub</p>
+  </div>
+</footer>
+
+</body>
+</html>
