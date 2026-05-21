@@ -118,7 +118,7 @@
       <div class="prose">
         <h3>Pipeline</h3>
         <ol class="pipeline">
-          <li><strong>SPARQL seed query</strong> &mdash; rank politicians by number of Wikipedia language editions covering them; take the top 800.</li>
+          <li><strong>SPARQL seed query</strong> &mdash; rank politicians by number of Wikipedia language editions covering them; take the top 1000.</li>
           <li><strong>Link walk</strong> &mdash; for each seed's Wikipedia page, follow internal links and keep the ones that point to other US politicians.</li>
           <li><strong>Filter</strong> &mdash; humans, US-office holders, born before 1990, died after 1980 (so we focus on the modern era).</li>
           <li><strong>Article fetch</strong> &mdash; for every politician, pull the full plain-text Wikipedia article via the <code>extracts</code> API, strip the footer sections (References, See also, External links, Bibliography &hellip;).</li>
