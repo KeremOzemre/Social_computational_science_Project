@@ -118,11 +118,11 @@
       <div class="prose">
         <h3>Pipeline</h3>
         <ol class="pipeline">
-          <li><strong>SPARQL seed query</strong> &mdash; rank politicians by number of Wikipedia language editions covering them; take the top 1000.</li>
-          <li><strong>Link walk</strong> &mdash; for each seed's Wikipedia page, follow internal links and keep the ones that point to other US politicians.</li>
-          <li><strong>Filter</strong> &mdash; humans, US-office holders, born before 1990, died after 1980 (so we focus on the modern era).</li>
-          <li><strong>Article fetch</strong> &mdash; for every politician, pull the full plain-text Wikipedia article via the <code>extracts</code> API, strip the footer sections (References, See also, External links, Bibliography &hellip;).</li>
-          <li><strong>Tokenisation</strong> &mdash; sentence-split, lowercase, remove stopwords, lemmatise with WordNet, detect significant bigrams via &chi;<sup>2</sup>.</li>
+          <li><strong>SPARQL seed query</strong> &mdash; rank politicians by number of Wikipedia language editions covering them as a proxy for notability. Filters applied at query time: must be human, occupation politician, held a US political office, born before 1990, career not ended before 1980. Top 1,000 matching politicians become seeds.</li>
+          <li><strong>Link walk &mdash; seed pages</strong> &mdash; for each seed&rsquo;s English Wikipedia page, follow internal links and keep politicians who also pass the same filters. This extends the dataset from 1,000 seeds to <strong>3,776 politicians</strong>.</li>
+          <li><strong>Link walk &mdash; neighbour pages</strong> &mdash; repeat the same process on the newly discovered neighbours: follow their Wikipedia links and again keep any US politicians matching the filters. Dataset grows to <strong>6,625 politicians</strong>.</li>
+          <li><strong>Extract information</strong> &mdash; for each politician, fetch metadata from Wikidata: position, career start &amp; end dates, nationality, birth &amp; death dates, party affiliation, gender, education, state, and Wikipedia URL.</li>
+          <li><strong>Manual filtering &amp; cleanup</strong> &mdash; merge duplicate entries (keeping the most prestigious position), simplify party labels into Democrat / Republican / Other, estimate career spans, and remove politicians whose careers ended before 1980. Final dataset: <strong>6,138 politicians</strong>.</li>
         </ol>
       </div>
       <aside class="schema-card">
@@ -435,8 +435,8 @@
     <p class="kicker">08 &mdash; Behind the scenes</p>
     <h2>The explainer notebook</h2>
     <p class="prose-lead">
-      The website is the story; the notebook is the workings. It walks through every decision &mdash; data cleaning,
-      tokenisation choices, network metrics, model selection &mdash; with the code right next to the prose.
+      The website is the story while the notebook is our workings. It walks through every decision &mdash; data cleaning,
+      tokenisation choices, network metrics, model selection, discussions &mdash; accompanied by all the code written and used.
     </p>
     <p class="cta-row">
       <a class="btn btn-primary" href="explainer.html" rel="external">Open explainer notebook &rarr;</a>
