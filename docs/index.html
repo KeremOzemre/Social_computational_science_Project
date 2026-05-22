@@ -219,6 +219,24 @@
       <div class="bar-value">232 &middot; 3.8%</div>
     </div>
     <p class="caption">Party breakdown of the 6,138 politicians in the dataset.</p>
+
+    <h3>Gender</h3>
+    <div class="bar-row">
+      <div class="bar-label">Male</div>
+      <div class="bar-track"><div class="bar bar-rep" style="width: 79%"></div></div>
+      <div class="bar-value">4,849 &middot; 79.0%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Female</div>
+      <div class="bar-track"><div class="bar bar-dem" style="width: 21%"></div></div>
+      <div class="bar-value">1,289 &middot; 21.0%</div>
+    </div>
+    <p class="caption">
+      Gender breakdown of the dataset. The strong male imbalance (~4&times; more male politicians)
+      is worth keeping in mind when interpreting the sentiment analysis in Section 04 &mdash;
+      the gender difference in coverage tone is statistically significant but should be read
+      against this compositional baseline.
+    </p>
   </div>
 </section>
 
@@ -226,7 +244,7 @@
 <section id="network" class="section">
   <div class="container">
     <p class="kicker">03 &mdash; The Network</p>
-    <h2>A few clusters, a very long tail</h2>
+    <h2>A few hubs, a very long tail</h2>
     <p class="prose-lead">
       Each node is a politician. Each edge connects two whose Wikipedia pages mutually link to each
       other. The first thing the graph reveals is structural inequality: most politicians have almost
@@ -244,12 +262,6 @@
         with only a handful of connections each.
       </figcaption>
     </figure>
-    <p class="prose">
-      The visual immediately shows two things: a dense, mixed-party core of nationally prominent
-      politicians who reference each other constantly, and a large sparse periphery of local and
-      state-level figures who are mostly connected only to their immediate political neighbours.
-      The network is not evenly distributed &mdash; it has a clear hierarchy.
-    </p>
 
     <div class="two-col">
       <div class="prose">
@@ -293,13 +305,6 @@
         exponentially &mdash; a completely different shape.
       </figcaption>
     </figure>
-    <p class="prose">
-      The power law fit confirms that the inequality we see visually is not coincidental. Political
-      visibility on Wikipedia compounds over time: the most prominent politicians are referenced by
-      everyone, which makes them even more likely to be referenced again. A random network has no
-      such mechanism &mdash; its bell-curve distribution shows what the graph would look like if
-      connections were assigned by chance rather than prominence.
-    </p>
 
     <h3>Party is the strongest predictor of who links to whom</h3>
     <p class="prose-lead">
@@ -318,20 +323,14 @@
         rather than to each other.
       </figcaption>
     </figure>
-    <p class="prose">
-      The party bar stands out clearly above all others. This means that even though Wikipedia is
-      written by independent editors with no coordination, the resulting link structure still reflects
-      the real-world partisan divide &mdash; Democrats reference Democratic colleagues, Republicans
-      reference Republican colleagues. The near-zero bar for prestigious school is also informative:
-      shared educational background has essentially no bearing on who links to whom, suggesting that
-      political affiliation and shared context matter far more than elite networks.
-    </p>
 
     <p class="prose">
-      But is the party signal real, or just a consequence of how the degree distribution is shaped?
-      To test this, we rewired the network 100 times using a <strong>double edge swap</strong> model
-      &mdash; randomly shuffling edges while preserving each politician's exact number of connections
-      &mdash; and compared the observed assortativity against the resulting null distribution.
+      Wikipedia's links are written by thousands of independent editors with no coordination, yet the
+      resulting graph still sorts itself substantially along party lines. But is this pattern genuine,
+      or could it arise simply from the network's degree distribution? To test this, we rewired the
+      network 100 times using a <strong>double edge swap</strong> model &mdash; randomly shuffling
+      edges while preserving each politician's exact number of connections &mdash; and compared the
+      observed assortativity against the resulting null distribution.
     </p>
 
     <figure class="figure">
@@ -348,14 +347,6 @@
         (p&nbsp;=&nbsp;0.000) &mdash; a small but genuine same-gender clustering effect.
       </figcaption>
     </figure>
-    <p class="prose">
-      All three observed values sit far outside their null distributions. This rules out the
-      alternative explanation that party clustering is just a side-effect of having a few very
-      well-connected hubs. The homophily is genuine: politicians link to politicians like themselves
-      even after accounting for how connected they each are. The gender effect is smaller but also
-      real &mdash; likely reflecting that female politicians entered office in similar eras and
-      regions, creating natural co-citation clusters.
-    </p>
 
     <h3>Influence compounds at the top</h3>
     <p class="prose-lead">
@@ -376,14 +367,6 @@
         count does not.
       </figcaption>
     </figure>
-    <p class="prose">
-      The eigenvector result (r&nbsp;=&nbsp;0.915) tells us that the same small group of presidents
-      and party leaders who top the degree ranking also top the prestige ranking &mdash; they are
-      connected to each other, not just to peripheral figures. The closeness result is subtler: beyond
-      around 100 connections, adding more links barely changes how quickly you can reach the rest of
-      the network. This means the difference between a very prominent politician and an extremely
-      prominent one is smaller than it looks &mdash; both are effectively at the centre.
-    </p>
 
     <p class="prose">
       With the network structure established, the next question is what the articles themselves say
@@ -423,57 +406,23 @@
       treatment than others?
     </p>
 
-    <div class="two-col">
-  <figure class="figure">
-    <img src="assets/q2_party_bar.png" alt="Sentiment by party">
-    <figcaption>
-      Sentiment broken down by party. Democrats, Republicans, and Others all average
-      between +0.35 and +0.41. A Kruskal&ndash;Wallis test finds <strong>no significant
-      difference</strong> between them (p&nbsp;=&nbsp;0.21). Whatever positive tilt
-      Wikipedia has, it applies to both sides of the aisle equally.
-    </figcaption>
-  </figure>
-  <figure class="figure">
-    <img src="assets/q3_gender_box.png" alt="Sentiment by gender">
-    <figcaption>
-      Sentiment broken down by gender. Female politicians receive marginally
-      <em>more</em> positive coverage than male politicians, and the difference is
-      statistically significant (Mann&ndash;Whitney p&nbsp;=&nbsp;0.002) &mdash; though
-      the effect size is small. With nearly four times as many male politicians in the
-      dataset, the difference is unlikely to reflect deliberate editorial bias and more
-      likely reflects the kinds of roles and contexts female politicians are described in.
-    </figcaption>
-  </figure>
-</div>
-<p class="prose">
-  Taken together, the two plots tell a consistent story: Wikipedia's positive overall tone
-  is not unevenly distributed by party or gender. The most meaningful variation in sentiment
-  comes not from who a politician is, but from how prominent they are &mdash; as the
-  centrality analysis above shows.
-</p>
-
-    <h3>More prominent politicians get more extreme coverage</h3>
-    <figure class="figure figure-narrow">
-      <img src="assets/q4_centrality_sentiment.png" alt="Degree vs absolute sentiment">
+    <figure class="figure">
+      <img src="assets/q2_party_sentiment.png" alt="Sentiment by party">
       <figcaption>
-        Each dot is a politician. The x-axis is their degree (number of mutual Wikipedia links);
-        the y-axis is the absolute value of their sentiment score &mdash; how far from neutral
-        their article is, regardless of direction. The red line is the trend. Higher-degree
-        politicians tend to receive more extreme coverage, both positive and negative
-        (Spearman &rho;&nbsp;=&nbsp;+0.18, p&nbsp;&lt;&nbsp;0.001).
+        Sentiment broken down by party. Democrats, Republicans, and Others all average around +0.35
+        to +0.41. A Kruskal&ndash;Wallis test finds <strong>no significant difference</strong> between
+        them (p&nbsp;=&nbsp;0.21). Whatever positive tilt Wikipedia has, it applies to both sides of
+        the aisle equally. As a source of political information, Wikipedia does not appear to carry a
+        partisan slant in the way it describes politicians.
       </figcaption>
     </figure>
+
     <p class="prose">
-      The relationship is modest but consistent: the more connected a politician is, the further
-      from neutral their Wikipedia article tends to be. This makes intuitive sense &mdash; highly
-      prominent politicians accumulate more editorial attention, more documented controversies, more
-      celebrated achievements, and more partisan cross-referencing from other articles. A local
-      councillor with five links gets a short, factual biography. A president with a thousand links
-      gets decades of policy, scandal, legacy, and debate. The content accumulates, and with it
-      the sentiment signal strengthens. Importantly, the effect goes in both directions: some
-      high-degree politicians are very positively covered, others very negatively. Prominence
-      amplifies whatever story Wikipedia tells about you &mdash; it does not determine whether
-      that story is flattering or damning.
+      Gender tells a slightly different story: articles about female politicians are marginally
+      <em>more</em> positive than those about male politicians, and the difference is statistically
+      significant (Mann&ndash;Whitney p&nbsp;=&nbsp;0.002) &mdash; though the effect size is small.
+      More strikingly, <strong>seniority predicts sentiment</strong>: Vice Presidents and US Senators
+      receive markedly warmer coverage than local officials and staff, regardless of party.
     </p>
 
     <figure class="figure">
@@ -570,49 +519,44 @@
         of party, state, or era. The labelled hubs &mdash; Obama, Trump, Biden, the Clintons, the
         Bushes &mdash; sit where the densest cross-references concentrate at the core.
       </figcaption>
-</figure>
+    </figure>
 
-<h3>Shared context beats party at the community level</h3>
-<p class="prose">
-  Despite party being the strongest predictor of individual links, communities do not split
-  neatly into Democrat and Republican blocs. This is the key tension in the data: party
-  homophily is real and structural at the level of individual connections, yet when you zoom
-  out to the community level, two other forces dominate.
-</p>
-<p class="prose">
-  Just 4 of the 33 communities are more than 70% one-sided. The reason is that different
-  mechanisms operate at different scales. At the individual level, Democrats link to Democrats
-  and Republicans to Republicans — as the assortativity confirmed. But at the community level,
-  shared context overrides party. Two forces shape the clusters:
-</p>
-<ul class="big-list">
-  <li>
-    <span class="big-list-num">1</span>
-    <span>
-      <strong>National prominence.</strong> The three largest communities are dominated by
-      presidents, vice presidents and national figures &mdash; George W. Bush, Bill Clinton and
-      Reagan in one; McCain, Romney and Harris in another; Trump, Biden and Pelosi in a third.
-      These clusters are party-mixed because national politicians of both parties are constantly
-      referenced together in the context of shared historical events, opposing policy positions,
-      and political conflict. Wikipedia's link structure encodes interaction, not just agreement.
-    </span>
-  </li>
-  <li>
-    <span class="big-list-num">2</span>
-    <span>
-      <strong>State and regional politics.</strong> The smaller communities are strikingly
-      geographic: a New York City cluster (Giuliani, Bloomberg, Cuomo), an Illinois cluster
-      (Obama, Jesse Jackson, Durbin), a New Jersey cluster (Christie, Corzine, Menendez), an
-      Alaska cluster (Palin, Stevens, Young). Politicians who governed the same place link to
-      each other regardless of party &mdash; they share the same institutions, the same local
-      press coverage, and the same regional political context.
-    </span>
-  </li>
-</ul>
+    <h3>The median community is only 56% one party</h3>
+    <p class="prose">
+      Just 4 of the 33 communities are more than 70% one-sided. So while party predicts individual
+      links (as the assortativity results showed), it does <em>not</em> cleanly carve up the network
+      into red and blue blocs. Two other forces dominate:
+    </p>
+    <ul class="big-list">
+      <li>
+        <span class="big-list-num">1</span>
+        <span>
+          <strong>National prominence.</strong> The three largest communities are dominated by
+          presidents, vice presidents and national figures &mdash; George W. Bush, Bill Clinton and
+          Reagan in one; McCain, Romney and Harris in another; Trump, Biden and Pelosi in a third.
+          These clusters are party-mixed, because national politicians of both parties reference
+          each other constantly in the context of shared events, opposition, and conflict.
+        </span>
+      </li>
+      <li>
+        <span class="big-list-num">2</span>
+        <span>
+          <strong>State and regional politics.</strong> The smaller communities are strikingly
+          geographic: a New York City cluster (Giuliani, Bloomberg, Cuomo), an Illinois cluster
+          (Obama, Jesse Jackson, Durbin), a New Jersey cluster (Christie, Corzine, Menendez), an
+          Alaska cluster (Palin, Stevens, Young). Politicians who governed the same place link to
+          each other regardless of party.
+        </span>
+      </li>
+    </ul>
+    <p class="prose">
+      This is the network answer. Now the question is whether the text gives the same answer
+      independently.
+    </p>
 
-    <h3>The vocabulary confirms what the louvain communities suggest</h3>
+    <h3>The vocabulary confirms what the links suggest</h3>
     <figure class="figure">
-      <img src="assets/bm25_community.png" alt="BM25 word clouds: distinctive vocabulary per Louvain community">
+      <img src="assets/bm25_communities.png" alt="BM25 word clouds: distinctive vocabulary per Louvain community">
       <figcaption>
         The most distinctive words for the nine largest communities, scored by BM25. The algorithm
         that generated these vocabularies had no knowledge of the link structure; it only saw article
@@ -624,17 +568,6 @@
         Geography and historical era define the language of each cluster &mdash; not party.
       </figcaption>
     </figure>
-    <p class="prose">
-  This is the key result of the whole project. Two completely independent analyses &mdash; one
-  reading only links, one reading only words &mdash; arrive at the same answer. The Louvain
-  algorithm never saw an article; the BM25 scoring never saw an edge. Yet the Alaska cluster
-  the network finds is the same Alaska cluster the vocabulary finds. The Cold War presidential
-  community in the links is the Cold War presidential community in the text. That convergence
-  is not guaranteed, and it is not trivial. It means the groupings are not an artefact of
-  either method &mdash; they are a real feature of how American political life is encoded in
-  Wikipedia, written into both the structure of who references whom and the language used to
-  describe them.
-    </p>
 
     <p class="prose">
       The network and the text tell the same story: Wikipedia's communities are organised by shared
@@ -737,6 +670,28 @@
         <li>Wikipedia reflects each party's own framing faithfully &mdash; a useful but not uncritical source.</li>
       </ol>
     </aside>
+
+    <div class="prose" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border, #e5e5e5);">
+      <h3>The headline finding</h3>
+      <p>
+        Wikipedia encodes American political life twice &mdash; once in its link structure, once in
+        its words &mdash; and both encodings tell the same story. The network is dominated by a small
+        elite of nationally prominent politicians whose influence compounds through preferential
+        attachment. Party shapes individual connections, but geography and shared historical context
+        shape communities. And the text confirms all of it: the same geographic and era-based
+        groupings that emerge from link analysis independently emerge from vocabulary analysis, with
+        no information shared between the two methods.
+      </p>
+      <p>
+        As a political information source, Wikipedia holds up well on the most important criterion:
+        it is not partisan. Its positive overall tone is applied evenly across parties, and the
+        vocabulary differences between Democrat and Republican articles reflect genuine policy
+        differences rather than editorial bias. The main limitation is that prominence drives
+        everything &mdash; senior politicians receive richer, warmer, and more extreme coverage
+        than junior ones, which means Wikipedia is a better mirror of political prominence than
+        of political reality in full.
+      </p>
+    </div>
   </div>
 </section>
 
