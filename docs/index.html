@@ -226,11 +226,11 @@
 <section id="network" class="section">
   <div class="container">
     <p class="kicker">03 &mdash; The Network</p>
-    <h2>A few clusters, a very long tail</h2>
+    <h2>A few hubs, a very long tail</h2>
     <p class="prose-lead">
-      Each node is a politician. Each edge connects to politicians whose Wikipedia pages mutually link to each
+      Each node is a politician. Each edge connects two whose Wikipedia pages mutually link to each
       other. The first thing the graph reveals is structural inequality: most politicians have almost
-      no connections, while a handful have hundreds or thousands which is expected as the politicians range from local officials to national leaders.
+      no connections, while a handful have hundreds or thousands.
     </p>
 
     <figure class="figure">
@@ -244,6 +244,12 @@
         with only a handful of connections each.
       </figcaption>
     </figure>
+    <p class="prose">
+      The visual immediately shows two things: a dense, mixed-party core of nationally prominent
+      politicians who reference each other constantly, and a large sparse periphery of local and
+      state-level figures who are mostly connected only to their immediate political neighbours.
+      The network is not evenly distributed &mdash; it has a clear hierarchy.
+    </p>
 
     <div class="two-col">
       <div class="prose">
@@ -287,6 +293,13 @@
         exponentially &mdash; a completely different shape.
       </figcaption>
     </figure>
+    <p class="prose">
+      The power law fit confirms that the inequality we see visually is not coincidental. Political
+      visibility on Wikipedia compounds over time: the most prominent politicians are referenced by
+      everyone, which makes them even more likely to be referenced again. A random network has no
+      such mechanism &mdash; its bell-curve distribution shows what the graph would look like if
+      connections were assigned by chance rather than prominence.
+    </p>
 
     <h3>Party is the strongest predictor of who links to whom</h3>
     <p class="prose-lead">
@@ -305,14 +318,20 @@
         rather than to each other.
       </figcaption>
     </figure>
+    <p class="prose">
+      The party bar stands out clearly above all others. This means that even though Wikipedia is
+      written by independent editors with no coordination, the resulting link structure still reflects
+      the real-world partisan divide &mdash; Democrats reference Democratic colleagues, Republicans
+      reference Republican colleagues. The near-zero bar for prestigious school is also informative:
+      shared educational background has essentially no bearing on who links to whom, suggesting that
+      political affiliation and shared context matter far more than elite networks.
+    </p>
 
     <p class="prose">
-      Wikipedia's links are written by thousands of independent editors with no coordination, yet the
-      resulting graph still sorts itself substantially along party lines. But is this pattern genuine,
-      or could it arise simply from the network's degree distribution? To test this, we rewired the
-      network 100 times using a <strong>double edge swap</strong> model &mdash; randomly shuffling
-      edges while preserving each politician's exact number of connections &mdash; and compared the
-      observed assortativity against the resulting null distribution.
+      But is the party signal real, or just a consequence of how the degree distribution is shaped?
+      To test this, we rewired the network 100 times using a <strong>double edge swap</strong> model
+      &mdash; randomly shuffling edges while preserving each politician's exact number of connections
+      &mdash; and compared the observed assortativity against the resulting null distribution.
     </p>
 
     <figure class="figure">
@@ -329,6 +348,14 @@
         (p&nbsp;=&nbsp;0.000) &mdash; a small but genuine same-gender clustering effect.
       </figcaption>
     </figure>
+    <p class="prose">
+      All three observed values sit far outside their null distributions. This rules out the
+      alternative explanation that party clustering is just a side-effect of having a few very
+      well-connected hubs. The homophily is genuine: politicians link to politicians like themselves
+      even after accounting for how connected they each are. The gender effect is smaller but also
+      real &mdash; likely reflecting that female politicians entered office in similar eras and
+      regions, creating natural co-citation clusters.
+    </p>
 
     <h3>Influence compounds at the top</h3>
     <p class="prose-lead">
@@ -349,6 +376,14 @@
         count does not.
       </figcaption>
     </figure>
+    <p class="prose">
+      The eigenvector result (r&nbsp;=&nbsp;0.915) tells us that the same small group of presidents
+      and party leaders who top the degree ranking also top the prestige ranking &mdash; they are
+      connected to each other, not just to peripheral figures. The closeness result is subtler: beyond
+      around 100 connections, adding more links barely changes how quickly you can reach the rest of
+      the network. This means the difference between a very prominent politician and an extremely
+      prominent one is smaller than it looks &mdash; both are effectively at the centre.
+    </p>
 
     <p class="prose">
       With the network structure established, the next question is what the articles themselves say
@@ -502,6 +537,14 @@
         Bushes &mdash; sit where the densest cross-references concentrate at the core.
       </figcaption>
     </figure>
+    <p class="prose">
+      Compare this to the party-coloured network in Section 03. If communities corresponded neatly
+      to parties, you would expect each colour here to map cleanly onto blue or red. Instead, the
+      largest communities at the core are visibly mixed &mdash; national politicians from both parties
+      cluster together because they constantly reference each other in the context of shared events,
+      legislation, and political conflict. The geographic communities at the periphery are more
+      uniform, but by state rather than by party.
+    </p>
 
     <h3>The median community is only 56% one party</h3>
     <p class="prose">
@@ -550,6 +593,16 @@
         Geography and historical era define the language of each cluster &mdash; not party.
       </figcaption>
     </figure>
+    <p class="prose">
+      This is the key result of the whole project. The BM25 analysis was run entirely from article
+      text with no knowledge of the network. The Louvain algorithm was run entirely from links with
+      no knowledge of the text. Yet both independently produce the same groupings &mdash; Alaska
+      vocabulary in the Alaska cluster, Cold War vocabulary in the presidential era cluster, California
+      vocabulary in the California cluster. Wikipedia encodes the same political geography twice:
+      once in who links to whom, and once in the words used to describe them. That alignment is
+      not guaranteed, and finding it is the strongest validation that both analyses are capturing
+      something real about American political structure.
+    </p>
 
     <p class="prose">
       The network and the text tell the same story: Wikipedia's communities are organised by shared
