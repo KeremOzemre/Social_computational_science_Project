@@ -175,12 +175,13 @@
     </p>
 
     <figure class="figure">
-      <img src="assets/politicians_network_party.png" alt="The US politician network, coloured by party">
+      <img src="assets/us_politicians_network.png" alt="The US politician network, coloured by party">
       <figcaption>
         The largest connected component &mdash; 6,049 politicians joined by 33,030 links. The 2,000 best-connected
-        politicians are drawn; node size scales with the number of connections, and colour shows party
-        (blue&nbsp;= Democrat, red&nbsp;= Republican, grey&nbsp;= Other). The labelled hubs in the dense core are the
-        most-linked figures: presidents, party leaders and recent nominees.
+        politicians are drawn; node size scales with degree, and colour shows party
+        (blue&nbsp;= Democrat, orange&nbsp;= Republican, grey&nbsp;= Other). The labelled hubs in the dense core are the
+        most-linked figures: Reagan, both Bushes, Clinton, Obama, Trump, Cheney, and other presidents and party leaders.
+        The vast majority of nodes cluster at the periphery with only a handful of connections each.
       </figcaption>
     </figure>
 
@@ -213,11 +214,17 @@
     </div>
 
     <figure class="figure figure-narrow">
-      <img src="assets/degree_distribution.png" alt="Degree distribution: real network vs random network">
+      <img src="assets/degree_distribution_final.png" alt="Degree distribution: real network vs random network vs power law">
       <figcaption>
-        How many connections politicians have, on log&ndash;log axes. The real network (left) has a long tail
-        stretching out to ~1,000, while a random network of the same density (right) is sharply peaked around 11.
-        Real social and citation networks almost always look like the left panel.
+        Three views of the degree distribution. <strong>Left:</strong> the real network on log&ndash;log axes &mdash;
+        a long rightward tail stretching out to ~1,000 connections, with mean&nbsp;10.9 pulled far above the
+        median&nbsp;5.0 by a small number of highly connected hubs.
+        <strong>Middle:</strong> a random Erd&#337;s&ndash;R&eacute;nyi network of the same size and density &mdash;
+        a tightly peaked Poisson distribution where mean and median are nearly identical at&nbsp;11.
+        <strong>Right:</strong> the complementary cumulative distribution (CCDF) on log&ndash;log axes, comparing
+        the real network against the random baseline and a fitted power law (exponent &gamma;&nbsp;=&nbsp;1.39).
+        The real network closely follows the power law in the tail, confirming a scale-free structure driven by
+        preferential attachment &mdash; well-known politicians attract ever more references.
       </figcaption>
     </figure>
 
@@ -232,8 +239,8 @@
       <img src="assets/assortativity.png" alt="Assortativity coefficients by attribute">
       <figcaption>
         Assortativity by attribute. Party is by far the strongest organising force (+0.29) &mdash; Democrats link to
-        Democrats and Republicans to Republicans more than chance would predict. Notability (is_seed) and gender
-        show milder same-kind clustering, while attending a prestigious school has essentially no effect. Degree is
+        Democrats and Republicans to Republicans more than chance would predict. Gender shows mild same-kind clustering,
+        while attending a prestigious school has essentially no effect. Degree is
         slightly negative: the biggest hubs tend to connect to less-connected politicians rather than to each other.
       </figcaption>
     </figure>
@@ -242,7 +249,48 @@
       The headline: <strong>party is the single strongest predictor of who connects to whom</strong> in the network.
       This is not obvious in advance &mdash; Wikipedia's links are written by thousands of independent editors with no
       coordination, yet the resulting graph still sorts itself substantially along party lines.
+      But is this pattern genuine, or could it arise simply from the degree sequence of the network?
+      To test this, we rewired the network 100 times using a double edge swap model &mdash; randomly shuffling edges
+      while preserving each politician's exact number of connections &mdash; and compared the observed assortativity
+      against this null distribution.
     </p>
+
+    <figure class="figure">
+      <img src="assets/assortivity_vs_doubleegde.png" alt="Assortativity vs double edge swap null model">
+      <figcaption>
+        Each histogram shows the assortativity values from 100 randomly rewired versions of the network (preserving
+        the exact degree sequence). The dashed vertical line is the value we actually observed.
+        <strong>Party (left):</strong> the observed r&nbsp;=&nbsp;+0.29 sits far to the right of the entire null
+        distribution (null mean&nbsp;&approx;&nbsp;0) &mdash; p&nbsp;=&nbsp;0.000. Party homophily is real and cannot
+        be explained by degree alone.
+        <strong>Degree (middle):</strong> hubs connect slightly less to each other than expected even under the null,
+        though the effect is small.
+        <strong>Gender (right):</strong> the observed r&nbsp;=&nbsp;+0.10 also exceeds the null (p&nbsp;=&nbsp;0.000),
+        confirming a small but genuine tendency for same-gender connections.
+      </figcaption>
+    </figure>
+
+    <h3>Central politicians are not just well-connected &mdash; they are connected to other well-connected politicians</h3>
+    <p class="prose-lead">
+      Having many connections (high degree) is one measure of importance. But two other measures capture
+      something different: <em>eigenvector centrality</em> asks whether your connections are themselves
+      well-connected, and <em>closeness centrality</em> measures how quickly you can reach every other
+      politician in the network.
+    </p>
+
+    <figure class="figure">
+      <img src="assets/centrality_vs_degree.png" alt="Centrality vs degree scatter plots">
+      <figcaption>
+        <strong>Left:</strong> degree vs eigenvector centrality (r&nbsp;=&nbsp;0.915). The near-perfect linear
+        relationship means that the most-connected politicians are almost exclusively connected to other
+        highly-connected politicians &mdash; influence compounds at the top.
+        <strong>Right:</strong> degree vs closeness centrality (r&nbsp;=&nbsp;0.449). The relationship is positive
+        but strongly saturating: once a politician has around 100&ndash;200 connections, adding more barely
+        shortens their average path to the rest of the network. Reach plateaus; raw connection count does not.
+        The handful of outliers far to the right are presidents and vice presidents &mdash; the true hubs of
+        the network.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
