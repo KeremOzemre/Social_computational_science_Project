@@ -453,13 +453,103 @@
   <div class="container">
     <p class="kicker">06 &mdash; Findings</p>
     <h2>What the network and the text together tell us</h2>
-    <div class="placeholder placeholder-big">
-      <p class="placeholder-tag">Coming soon</p>
-      <p>
-        The headline insights from the project, written for a non-technical reader. Three or four
-        clear claims with the visuals that support them.
-      </p>
+    <p class="prose-lead">
+      We started with two questions: <em>who is connected?</em> and <em>what do they say?</em>
+      Here are the four things that stood out when we put the answers side by side.
+    </p>
+
+    <ul class="big-list">
+      <li>
+        <span class="big-list-num">1</span>
+        <span>
+          <strong>Party shapes the links &mdash; but does not split the network in two.</strong>
+          With an assortativity coefficient of +0.29, party affiliation is the single strongest
+          predictor of who connects to whom. Democrats disproportionately link to Democrats,
+          Republicans to Republicans &mdash; and we confirmed this is a genuine signal, not a
+          side-effect of the degree distribution, by testing it against 100 randomly rewired
+          versions of the network (p&nbsp;=&nbsp;0.000). Yet this homophily is not absolute.
+          The network remains one giant connected component, and the hubs at the centre &mdash;
+          presidents, vice presidents, major party leaders &mdash; are referenced by both sides.
+          Party sorts the edges; it does not wall off the graph.
+        </span>
+      </li>
+
+      <li>
+        <span class="big-list-num">2</span>
+        <span>
+          <strong>Communities are organised by prominence and geography, not ideology.</strong>
+          We ran a community detection algorithm that knows nothing about party &mdash; just the
+          link structure. It found 33 communities. If ideology were the main organising force, we
+          would expect clean Democrat and Republican blocs. Instead, the median community is only
+          56% one party, and just 4 of the 33 exceed 70%. What the algorithm actually found were
+          clusters of national prominence (presidents and vice presidents of both parties grouped
+          together because they reference each other constantly) and tight geographic clusters:
+          New York City politics, Illinois politics, New Jersey, Alaska, California. Politicians
+          who governed the same place &mdash; regardless of party &mdash; end up in the same cluster.
+          Wikipedia&rsquo;s link structure tracks shared context and co-occurrence in events far more
+          than it tracks ideology.
+        </span>
+      </li>
+
+      <li>
+        <span class="big-list-num">3</span>
+        <span>
+          <strong>Wikipedia flatters politicians &mdash; but both parties equally.</strong>
+          Scoring every article with a sentiment tool reveals a clear positive tilt: the average
+          compound score is +0.37, well above the neutral zero mark, and the result is
+          statistically overwhelming (p&nbsp;&approx;&nbsp;0). Wikipedia is not neutral &mdash;
+          it describes politicians in warmer terms than a purely factual account would.
+          But this bias is even-handed: there is no significant difference between how Democrats
+          and Republicans are covered (p&nbsp;=&nbsp;0.21). What does predict sentiment is
+          <em>seniority</em>. Vice presidents and US senators receive the warmest coverage;
+          advisors and staff the least. The higher you rose, the more glowingly Wikipedia
+          tends to describe you.
+        </span>
+      </li>
+
+      <li>
+        <span class="big-list-num">4</span>
+        <span>
+          <strong>The network and the text tell the same story.</strong>
+          The communities found purely from links are confirmed by the vocabulary in the articles.
+          The cluster dominated by Cold War-era presidents uses words like <em>war</em>, <em>world</em>,
+          and <em>foreign</em>. The Alaska cluster is saturated with <em>oil</em>, <em>arctic</em>,
+          and <em>pipeline</em>. The California cluster foregrounds <em>latino</em>, <em>supervisor</em>,
+          and <em>proposition</em>. In each case the language independently arrives at the same
+          interpretation as the network structure &mdash; suggesting that Wikipedia encodes
+          political groupings twice: once in its graph, once in its words.
+          Even at the party level the text separates cleanly: Democratic articles are most
+          distinctive for <em>health</em>, <em>community</em>, and <em>legislation</em>;
+          Republican articles for <em>conservative</em>, <em>tax</em>, and <em>security</em> &mdash;
+          a difference in political vocabulary that emerges from the text even though the overall
+          <em>tone</em> is identical between the two parties.
+        </span>
+      </li>
+    </ul>
+
+    <div class="two-col" style="margin-top: 2.5rem;">
+      <aside class="callout">
+        <p class="callout-label">Research questions &mdash; answered</p>
+        <ol>
+          <li>Do politicians cluster into communities? <strong>Yes &mdash; 33 distinct communities.</strong></li>
+          <li>Do communities correspond to party? <strong>No &mdash; prominence and geography dominate.</strong></li>
+          <li>Are central nodes more influential? <strong>Yes &mdash; eigenvector centrality r&nbsp;=&nbsp;0.92 with degree.</strong></li>
+          <li>Does language align with network communities? <strong>Yes &mdash; BM25 vocabulary confirms every cluster.</strong></li>
+          <li>Is Wikipedia neutral across parties? <strong>No overall, but yes between parties (p&nbsp;=&nbsp;0.21).</strong></li>
+        </ol>
+      </aside>
+      <aside class="callout">
+        <p class="callout-label">Key numbers</p>
+        <ul>
+          <li><strong>+0.29</strong> party assortativity &mdash; confirmed by null model</li>
+          <li><strong>56%</strong> median community majority party &mdash; far from a clean split</li>
+          <li><strong>+0.37</strong> mean sentiment &mdash; Wikipedia leans positive</li>
+          <li><strong>p&nbsp;=&nbsp;0.21</strong> party sentiment difference &mdash; not significant</li>
+          <li><strong>p&nbsp;&lt;&nbsp;10<sup>&minus;90</sup></strong> position sentiment effect &mdash; seniority matters</li>
+        </ul>
+      </aside>
     </div>
+
   </div>
 </section>
 
