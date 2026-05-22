@@ -338,13 +338,15 @@
       <figcaption>
         Each histogram shows assortativity values from 100 randomly rewired versions of the network
         (degree sequence preserved). The dashed line is the observed value.
-        <strong>Party (left):</strong> observed r&nbsp;=&nbsp;+0.29 sits far outside the null distribution
-        (null mean&nbsp;&approx;&nbsp;0, p&nbsp;=&nbsp;0.000). Party homophily is structural, not a
-        degree artefact.
-        <strong>Degree (middle):</strong> the network is slightly less hub-to-hub than the degree sequence
-        alone would predict.
-        <strong>Gender (right):</strong> observed r&nbsp;=&nbsp;+0.10 also exceeds the null
-        (p&nbsp;=&nbsp;0.000) &mdash; a small but genuine same-gender clustering effect.
+        <strong>Party (left):</strong> observed r&nbsp;=&nbsp;+0.58 far exceeds the null mean of
+        +0.41 (p&nbsp;=&nbsp;0.000) &mdash; party homophily is a genuine structural feature, though
+        the degree sequence alone already explains a substantial portion of the clustering.
+        <strong>Degree (middle):</strong> the slight disassortativity (r&nbsp;=&nbsp;&minus;0.085)
+        is almost entirely explained by the degree sequence itself (null mean&nbsp;=&nbsp;&minus;0.098)
+        &mdash; there is no meaningful hub-avoidance beyond what the scale-free structure already implies.
+        <strong>Gender (right):</strong> observed r&nbsp;=&nbsp;+0.67 exceeds the null mean of +0.63
+        (p&nbsp;=&nbsp;0.000) &mdash; a small but genuine same-gender clustering effect, though much
+        of the apparent homophily is a degree artefact.
       </figcaption>
     </figure>
 
@@ -602,11 +604,12 @@
       <div class="prose">
         <h3>2. Partly &mdash; communities reflect geography and era more than party</h3>
         <p>
-          Party predicts individual links (assortativity +0.29) but does not cleanly determine
-          community membership. The median community is only 56% one party. The stronger
-          organising forces are national prominence (presidents and party leaders cluster
-          together regardless of affiliation) and geography (state-level politicians cluster
-          by where they governed).
+          Party predicts individual links (assortativity r&nbsp;=&nbsp;+0.58, well above the null
+          mean of +0.41) but does not cleanly determine community membership. The median community
+          is only 56% one party. The stronger organising forces are national prominence (presidents
+          and party leaders cluster together regardless of affiliation) and geography (state-level
+          politicians cluster by where they governed). Degree and gender assortativity, while
+          statistically significant, are largely explained by the degree sequence itself.
         </p>
       </div>
     </div>
