@@ -586,7 +586,28 @@
   shared context overrides party. Two forces shape the clusters:
 </p>
 <ul class="big-list">
-  ...
+  <li>
+    <span class="big-list-num">1</span>
+    <span>
+      <strong>National prominence.</strong> The three largest communities are dominated by
+      presidents, vice presidents and national figures &mdash; George W. Bush, Bill Clinton and
+      Reagan in one; McCain, Romney and Harris in another; Trump, Biden and Pelosi in a third.
+      These clusters are party-mixed because national politicians of both parties are constantly
+      referenced together in the context of shared historical events, opposing policy positions,
+      and political conflict. Wikipedia's link structure encodes interaction, not just agreement.
+    </span>
+  </li>
+  <li>
+    <span class="big-list-num">2</span>
+    <span>
+      <strong>State and regional politics.</strong> The smaller communities are strikingly
+      geographic: a New York City cluster (Giuliani, Bloomberg, Cuomo), an Illinois cluster
+      (Obama, Jesse Jackson, Durbin), a New Jersey cluster (Christie, Corzine, Menendez), an
+      Alaska cluster (Palin, Stevens, Young). Politicians who governed the same place link to
+      each other regardless of party &mdash; they share the same institutions, the same local
+      press coverage, and the same regional political context.
+    </span>
+  </li>
 </ul>
 
     <h3>The vocabulary confirms what the louvain communities suggest</h3>
@@ -604,14 +625,15 @@
       </figcaption>
     </figure>
     <p class="prose">
-      This is the key result of the whole project. The BM25 analysis was run entirely from article
-      text with no knowledge of the network. The Louvain algorithm was run entirely from links with
-      no knowledge of the text. Yet both independently produce the same groupings &mdash; Alaska
-      vocabulary in the Alaska cluster, Cold War vocabulary in the presidential era cluster, California
-      vocabulary in the California cluster. Wikipedia encodes the same political geography twice:
-      once in who links to whom, and once in the words used to describe them. That alignment is
-      not guaranteed, and finding it is the strongest validation that both analyses are capturing
-      something real about American political structure.
+  This is the key result of the whole project. Two completely independent analyses &mdash; one
+  reading only links, one reading only words &mdash; arrive at the same answer. The Louvain
+  algorithm never saw an article; the BM25 scoring never saw an edge. Yet the Alaska cluster
+  the network finds is the same Alaska cluster the vocabulary finds. The Cold War presidential
+  community in the links is the Cold War presidential community in the text. That convergence
+  is not guaranteed, and it is not trivial. It means the groupings are not an artefact of
+  either method &mdash; they are a real feature of how American political life is encoded in
+  Wikipedia, written into both the structure of who references whom and the language used to
+  describe them.
     </p>
 
     <p class="prose">
