@@ -294,6 +294,18 @@
       p&nbsp;=&nbsp;0.002) &mdash; though the effect is small.
     </p>
 
+    <h3>Democrats and Republicans speak different languages</h3>
+    <figure class="figure">
+      <img src="assets/TF-IDF_party.png" alt="BM25 word clouds: distinctive vocabulary by party">
+      <figcaption>
+        The most distinctive words in Democratic (left) versus Republican (right) Wikipedia articles, scored by
+        BM25. Word size reflects how strongly a term characterises that party relative to the full corpus.
+        Democrats cluster around social policy&mdash;<em>health</em>, <em>community</em>, <em>housing</em>,
+        <em>legislation</em>; Republicans around fiscal and security themes&mdash;<em>conservative</em>,
+        <em>tax</em>, <em>security</em>, <em>abortion</em>, <em>military</em>.
+      </figcaption>
+    </figure>
+
     <h3>Seniority buys better press</h3>
     <figure class="figure">
       <img src="assets/q5_position_sentiment.png" alt="Sentiment by position tier">
@@ -321,11 +333,13 @@
         </p>
       </div>
       <aside class="callout">
-        <p class="callout-label">Still to come</p>
+        <p class="callout-label">Distinctive vocabulary by party</p>
         <p>
-          <strong>TF&ndash;IDF word clouds.</strong> We are finishing an analysis of the most distinctive vocabulary
-          per party and per community &mdash; which words set Democrats apart from Republicans, and whether the
-          link-structure communities also differ in language. Those visualisations will land here soon.
+          Which words best characterise Democrats versus Republicans? Using BM25&mdash;a scoring method that
+          rewards words that appear often in one party&rsquo;s articles but rarely across the full corpus&mdash;the
+          contrast is striking: Democratic articles lean on <em>health</em>, <em>community</em>, <em>legislation</em>
+          and <em>housing</em>; Republican articles on <em>conservative</em>, <em>tax</em>, <em>security</em>
+          and <em>abortion</em>.
         </p>
       </aside>
     </div>
@@ -371,14 +385,19 @@
       co-occurrence in events, not political alignment.
     </p>
 
-    <aside class="callout">
-      <p class="callout-label">Coming soon &mdash; naming the communities</p>
-      <p>
-        We are finishing a TF&ndash;IDF analysis that surfaces the most distinctive words in each community's
-        articles. That will let us put a label on each cluster from its language alone, and check whether the
-        link-based communities also stand apart in <em>what is written</em> about them.
-      </p>
-    </aside>
+    <h3>The text confirms what the links suggest</h3>
+    <figure class="figure">
+      <img src="assets/TD-IDF_community.png" alt="BM25 word clouds: distinctive vocabulary per Louvain community">
+      <figcaption>
+        The most distinctive words for the nine largest communities, scored by BM25. Each panel shows the
+        community size and its most-linked politicians. The vocabulary independently confirms the structural
+        interpretation: Community 15 (George W. Bush, Bill Clinton, Ronald Reagan) is defined by
+        <em>war</em>, <em>world</em>, <em>foreign</em>; Community 19 (Sarah Palin, Ted Stevens, Don Young)
+        by <em>oil</em>, <em>arctic</em>, <em>pipeline</em>, <em>native</em>; Community 30 (Dianne Feinstein,
+        Gavin Newsom) by <em>latino</em>, <em>supervisor</em>, <em>proposition</em>.
+        Geography and historical era, not party, define the language of each cluster.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
