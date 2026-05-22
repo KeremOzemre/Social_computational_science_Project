@@ -256,7 +256,7 @@
     </p>
 
     <figure class="figure">
-      <img src="assets/assortivity_vs_doubleegde.png" alt="Assortativity vs double edge swap null model">
+      <img src="assets/assortativity_null.png" alt="Assortativity vs double edge swap null model">
       <figcaption>
         Each histogram shows the assortativity values from 100 randomly rewired versions of the network (preserving
         the exact degree sequence). The dashed vertical line is the value we actually observed.
@@ -344,7 +344,7 @@
 
     <h3>Democrats and Republicans speak different languages</h3>
     <figure class="figure">
-      <img src="assets/TF-IDF_party.png" alt="BM25 word clouds: distinctive vocabulary by party">
+      <img src="assets/bm25_community.png" alt="BM25 word clouds: distinctive vocabulary by party">
       <figcaption>
         The most distinctive words in Democratic (left) versus Republican (right) Wikipedia articles, scored by
         BM25. Word size reflects how strongly a term characterises that party relative to the full corpus.
@@ -435,7 +435,7 @@
 
     <h3>The text confirms what the links suggest</h3>
     <figure class="figure">
-      <img src="assets/TD-IDF_community.png" alt="BM25 word clouds: distinctive vocabulary per Louvain community">
+      <img src="assets/bm25_community.png" alt="BM25 word clouds: distinctive vocabulary per Louvain community">
       <figcaption>
         The most distinctive words for the nine largest communities, scored by BM25. Each panel shows the
         community size and its most-linked politicians. The vocabulary independently confirms the structural
@@ -453,13 +453,106 @@
   <div class="container">
     <p class="kicker">06 &mdash; Findings</p>
     <h2>What the network and the text together tell us</h2>
-    <div class="placeholder placeholder-big">
-      <p class="placeholder-tag">Coming soon</p>
-      <p>
-        The headline insights from the project, written for a non-technical reader. Three or four
-        clear claims with the visuals that support them.
-      </p>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>1. The network is dominated by a small political elite</h3>
+        <p>
+          Half of all politicians have five or fewer Wikipedia links connecting them to others.
+          But a handful of figures &mdash; presidents, vice presidents, long-serving party leaders &mdash;
+          accumulate hundreds or thousands. The most-linked politician has around 1,000 connections.
+          This is not random: it follows a power law, the signature of a system where prominence
+          compounds. Being well-referenced makes you more likely to be referenced again.
+        </p>
+        <p>
+          Eigenvector centrality confirms this: the biggest hubs are almost exclusively connected
+          to other big hubs. Influence in the Wikipedia co-citation network is not spread evenly &mdash;
+          it is concentrated at the top and self-reinforcing.
+        </p>
+      </div>
+      <div class="prose">
+        <h3>2. Party is the strongest predictor of who links to whom</h3>
+        <p>
+          Democrats link to Democrats. Republicans link to Republicans. The party assortativity
+          coefficient is +0.29 &mdash; far above what any random rewiring of the network produces
+          (null mean &asymp; 0, p&nbsp;=&nbsp;0.000). This is not just a consequence of the network
+          having hubs; it persists even when the degree sequence is held fixed.
+        </p>
+        <p>
+          The effect holds for gender too: same-gender connections are slightly over-represented
+          (r&nbsp;=&nbsp;+0.10, p&nbsp;=&nbsp;0.000), likely reflecting that female politicians entered
+          office in similar cohorts and regions. Elite education has no detectable effect on
+          who connects to whom.
+        </p>
+      </div>
     </div>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>3. Communities are shaped by geography and era, not just party</h3>
+        <p>
+          Run a community detection algorithm that sees only the links &mdash; no party labels,
+          no state data &mdash; and it does not carve out neat Democrat and Republican blocs.
+          The median community is only 56% one party. Instead, two forces dominate: national
+          prominence (presidents and party leaders from both parties cluster together because
+          they reference each other constantly in the context of opposition and shared events)
+          and geography (California, New York, Illinois, Alaska, Ohio, and New Jersey each
+          produce tight clusters of politicians who governed the same place).
+        </p>
+        <p>
+          The BM25 vocabulary analysis confirms this independently. The Alaska community
+          (Palin, Stevens, Young) is defined by <em>oil</em>, <em>arctic</em>, <em>pipeline</em>.
+          The Cold War community (Reagan, Bush, Clinton) by <em>war</em>, <em>foreign</em>,
+          <em>army</em>. The text and the links tell the same story.
+        </p>
+      </div>
+      <div class="prose">
+        <h3>4. Wikipedia is positive but even-handed between parties</h3>
+        <p>
+          The average sentiment score across all 6,138 articles is +0.37 &mdash; Wikipedia leans
+          gently positive. Politicians are described in more flattering than critical terms. This
+          is consistent with most articles being written by people who find the subject interesting
+          or notable, not by adversaries.
+        </p>
+        <p>
+          But the positivity is applied roughly equally to both sides: a Kruskal&ndash;Wallis test
+          finds no significant difference between Democrat and Republican sentiment (p&nbsp;=&nbsp;0.21).
+          Where differences do appear, they track prominence rather than party &mdash; Vice Presidents
+          and Senators receive measurably warmer coverage than local officials and staff, regardless
+          of affiliation.
+        </p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="prose">
+        <h3>5. The parties use detectably different language</h3>
+        <p>
+          Even though sentiment is balanced, the vocabulary is not. BM25 analysis of the full
+          text corpus finds a clear partisan signal in word choice. Democratic articles are
+          distinguished by <em>health</em>, <em>housing</em>, <em>community</em>, <em>development</em>,
+          and <em>program</em> &mdash; a welfare and services frame. Republican articles by
+          <em>conservative</em>, <em>tax</em>, <em>security</em>, <em>company</em>, and
+          <em>abortion</em> &mdash; a fiscal and social conservative frame.
+        </p>
+        <p>
+          Wikipedia does not take sides in sentiment. But its articles, written by many independent
+          editors, still reflect the real-world policy priorities and self-descriptions of each party.
+          The encyclopaedia is a mirror: neutral in tone, but not in content.
+        </p>
+      </div>
+      <aside class="callout">
+        <p class="callout-label">The bottom line</p>
+        <ol>
+          <li>The network has a power-law structure driven by a small hub elite.</li>
+          <li>Party homophily is strong and structural &mdash; not a statistical artefact.</li>
+          <li>Communities reflect geography and era more than ideology.</li>
+          <li>Wikipedia is positive overall but politically even-handed.</li>
+          <li>Partisan vocabulary differences are detectable even in a neutral source.</li>
+        </ol>
+      </aside>
+    </div>
+
   </div>
 </section>
 
