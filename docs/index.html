@@ -423,16 +423,34 @@
       treatment than others?
     </p>
 
-    <figure class="figure">
-      <img src="assets/q2_party_sentiment.png" alt="Sentiment by party">
-      <figcaption>
-        Sentiment broken down by party. Democrats, Republicans, and Others all average around +0.35
-        to +0.41. A Kruskal&ndash;Wallis test finds <strong>no significant difference</strong> between
-        them (p&nbsp;=&nbsp;0.21). Whatever positive tilt Wikipedia has, it applies to both sides of
-        the aisle equally. As a source of political information, Wikipedia does not appear to carry a
-        partisan slant in the way it describes politicians.
-      </figcaption>
-    </figure>
+    <div class="two-col">
+  <figure class="figure">
+    <img src="assets/q2_party_bar.png" alt="Sentiment by party">
+    <figcaption>
+      Sentiment broken down by party. Democrats, Republicans, and Others all average
+      between +0.35 and +0.41. A Kruskal&ndash;Wallis test finds <strong>no significant
+      difference</strong> between them (p&nbsp;=&nbsp;0.21). Whatever positive tilt
+      Wikipedia has, it applies to both sides of the aisle equally.
+    </figcaption>
+  </figure>
+  <figure class="figure">
+    <img src="assets/q2_gender_box.png" alt="Sentiment by gender">
+    <figcaption>
+      Sentiment broken down by gender. Female politicians receive marginally
+      <em>more</em> positive coverage than male politicians, and the difference is
+      statistically significant (Mann&ndash;Whitney p&nbsp;=&nbsp;0.002) &mdash; though
+      the effect size is small. With nearly four times as many male politicians in the
+      dataset, the difference is unlikely to reflect deliberate editorial bias and more
+      likely reflects the kinds of roles and contexts female politicians are described in.
+    </figcaption>
+  </figure>
+</div>
+<p class="prose">
+  Taken together, the two plots tell a consistent story: Wikipedia's positive overall tone
+  is not unevenly distributed by party or gender. The most meaningful variation in sentiment
+  comes not from who a politician is, but from how prominent they are &mdash; as the
+  centrality analysis above shows.
+</p>
 
     <p class="prose">
       Gender tells a slightly different story: articles about female politicians are marginally
@@ -440,6 +458,30 @@
       significant (Mann&ndash;Whitney p&nbsp;=&nbsp;0.002) &mdash; though the effect size is small.
       More strikingly, <strong>seniority predicts sentiment</strong>: Vice Presidents and US Senators
       receive markedly warmer coverage than local officials and staff, regardless of party.
+    </p>
+
+    <h3>More prominent politicians get more extreme coverage</h3>
+    <figure class="figure figure-narrow">
+      <img src="assets/q4_centrality_sentiment.png" alt="Degree vs absolute sentiment">
+      <figcaption>
+        Each dot is a politician. The x-axis is their degree (number of mutual Wikipedia links);
+        the y-axis is the absolute value of their sentiment score &mdash; how far from neutral
+        their article is, regardless of direction. The red line is the trend. Higher-degree
+        politicians tend to receive more extreme coverage, both positive and negative
+        (Spearman &rho;&nbsp;=&nbsp;+0.18, p&nbsp;&lt;&nbsp;0.001).
+      </figcaption>
+    </figure>
+    <p class="prose">
+      The relationship is modest but consistent: the more connected a politician is, the further
+      from neutral their Wikipedia article tends to be. This makes intuitive sense &mdash; highly
+      prominent politicians accumulate more editorial attention, more documented controversies, more
+      celebrated achievements, and more partisan cross-referencing from other articles. A local
+      councillor with five links gets a short, factual biography. A president with a thousand links
+      gets decades of policy, scandal, legacy, and debate. The content accumulates, and with it
+      the sentiment signal strengthens. Importantly, the effect goes in both directions: some
+      high-degree politicians are very positively covered, others very negatively. Prominence
+      amplifies whatever story Wikipedia tells about you &mdash; it does not determine whether
+      that story is flattering or damning.
     </p>
 
     <figure class="figure">
